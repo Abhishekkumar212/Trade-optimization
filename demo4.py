@@ -245,7 +245,7 @@ def optimize_discounts(df, max_investment, lower_discount, upper_discount):
     result = minimize(objective, x0, bounds=bounds, constraints=constraints, method='trust-constr', options={'disp': True})
 
     if result.success:
-        df['Optimized Discount'] = np.round(result.x, 2)
+        df['Optimized Discount'] = np.round(result.x)
         df['Optimized Units'] = df['Forecast Avg. Base Volume'] * np.exp(df['Discount Uplift'] * df['Optimized Discount'] / 100) * df['Tactic Uplift']
         df['Optimized Revenue'] = df['Optimized Units'] * (df['List/ Base Price'] - df['Optimized Discount'])
         df['Optimized Margin'] = df['Optimized Revenue'] - (df['Optimized Units'] * df['Per Unit COGS'])
@@ -372,10 +372,10 @@ if st.button("Process"):
         st.write("Updated Total Comparison Data")
         st.dataframe(tf)
 
-        # Plot updated comparison chart
-        st.write("Updated Comparison of Planned and Optimized Values:")
-        comparison_data_updated = tf.set_index('Data-Totals')[['Planned', 'Optimized']]
-        st.bar_chart(comparison_data_updated)
+        # # Plot updated comparison chart
+        # st.write("Updated Comparison of Planned and Optimized Values:")
+        # comparison_data_updated = tf.set_index('Data-Totals')[['Planned', 'Optimized']]
+        # st.bar_chart(comparison_data_updated)
 
         # Reuse the plot from the Optimize section
         st.write("Updated Comparison of Planned and Optimized Values (Units and Revenue):")
